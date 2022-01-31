@@ -134,3 +134,19 @@ END: 3.3 Including Other Makefiles
 
 # Some skills
 
+## Passing Arguments to Target
+
+For example, to passing 'abc' to main executable file:
+
+```makefile
+# Makefile :
+run : main
+	./main $(ARGS)
+# command line
+make run ARGS="abc"
+```
+
+
+
+
+
