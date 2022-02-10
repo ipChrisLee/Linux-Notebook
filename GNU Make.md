@@ -148,5 +148,37 @@ make run ARGS="abc"
 
 
 
+# Examples
+
+```makefile
+OBJS = main.o elfRead.o helper.o
+CFLAGS = -Wall -Werror -g
+
+main : $(OBJS)
+	gcc $(OBJS) $(CFLAGS) -o main
+
+main.o : main.c
+	gcc $(CFLAGS) -c main.c -o main.o
+
+elfRead.o : elfRead.c
+	gcc $(CFLAGS) -c elfRead.c -o elfRead.o
+
+helper.o : helper.c
+	gcc $(CFLAGS) -c helper.c -o helper.o
+
+.PHNOY : clean gdb run
+
+clean : 
+	rm -f $(OBJS) main
+
+gdb : main
+	gdb ./main
+
+run : main
+	./main $(ARGS)
+```
+
+
+
 
 
