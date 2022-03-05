@@ -140,6 +140,7 @@ For example, to passing 'abc' to main executable file:
 
 ```makefile
 # Makefile :
+ARGS = default value  # if command invoked without setting ARGS
 run : main
 	./main $(ARGS)
 # command line
@@ -148,34 +149,50 @@ make run ARGS="abc"
 
 
 
+## use static pattern
+
+```makefile
+%.o : %.c
+	gcc -c $< -o $@
+```
+
+
+
+## mute command
+
+Add `@` behind command can run the command mutely.
+
+
+
 # Examples
 
 ```makefile
-OBJS = main.o elfRead.o helper.o
-CFLAGS = -Wall -Werror -g
+FILES = test
+OBJS = $(addsuffix .o, $(FILES)) 
+DISS = $(addsuffix .d, $(FILES))
+ALL_GEN_FILES = $(OBJS) $(DISS) main
+CFLAGS ?= -Wall -Werror -g -Og
 
 main : $(OBJS)
 	gcc $(OBJS) $(CFLAGS) -o main
+    
+%.o : %.c
+	gcc -c $(CFLAGS) $< -o $@
 
-main.o : main.c
-	gcc $(CFLAGS) -c main.c -o main.o
+%.d : %.o
+	objdump -d $< > $@
 
-elfRead.o : elfRead.c
-	gcc $(CFLAGS) -c elfRead.c -o elfRead.o
+.PHONY : clean ass gdb run
+clean :
+	rm -f $(ALL_GEN_FILES)
 
-helper.o : helper.c
-	gcc $(CFLAGS) -c helper.c -o helper.o
-
-.PHNOY : clean gdb run
-
-clean : 
-	rm -f $(OBJS) main
+run : main
+	./main
 
 gdb : main
 	gdb ./main
 
-run : main
-	./main $(ARGS)
+ass : $(DISS) 
 ```
 
 

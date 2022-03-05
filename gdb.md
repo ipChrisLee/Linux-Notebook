@@ -57,6 +57,12 @@
 
 
 
+### 终止程序
+
+`kill`命令可以终止程序的运行
+
+
+
 ### 命令行参数
 
 除了在`run`、`start`、`starti`的时候传参，还有一种方式：`set args`
@@ -360,9 +366,63 @@ int main(){
 
 ## 栈分析
 
+### 栈帧分析
+
+* `info f`
+
+  输出目前被选择的栈帧的描述信息（比如地址、存储的`%rip`等）
+
+* `up $n`｜`down $n`
+
+  选择上/下的第`$n`个栈帧
+
+* `info args`
+
+  输出目前被选择的栈帧所有的输入变量
+
+* `info locals`
+
+  输出目前被选择的栈帧所有的局部变量
+
+
+
+### 栈层分析
+
+[GDB::Backtrace](https://sourceware.org/gdb/onlinedocs/gdb/Backtrace.html#Backtrace)
+
+* `backtrace`｜`bt`
+
+  这个命令可以显示“程序是怎么走到当前情况的”
+
+* `bt [$option] ... [count]`
+
+  显示栈层，其中`$count`为正数时表示显示最近的`$count`层栈，负数显示最远的
+
+  `$option`为可选项，几个常用的：
+
+  * `-full`：输出每一个栈帧局部变量的信息
+
 [GDB信息页](https://sourceware.org/gdb/onlinedocs/gdb/Stack.html#Stack)
 
 遇到的时候去学
+
+
+
+## 内存分析
+
+### 内存查看
+
+* `x $addr`
+
+  从`$addr`开始输出内存内容，注意`$addr`可以是一个表达式
+
+  关于打印格式的设置可以参考[GDB](https://sourceware.org/gdb/onlinedocs/gdb/Memory.html)
+
+* 
+
+
+
+### 
 
 
 

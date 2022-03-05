@@ -107,6 +107,18 @@ ping www.pixiv.com -c 4
 
 
 
+## 应用程序
+
+一般情况下，使用`apt-get`之类的应用程序时可以自动安装应用程序到合理的位置，但是在安装一些其他应用时，需要自定义位置
+
+比如在`pycharm`的安装中就要求将程序安装在`{installation home}/bin`下，其中`installation home`是自定义安装`pycharm`的位置
+
+我们将所有的应用程序装在了`~/Applications/`下，之后在`~/Applications/shells`里写一些脚本，比如`AppPycharm`，然后再在`~/.zshrc`里加上`export PATH=$PATH:~/Applications/shells`，之后就可以在任意地方打开终端执行`AppPyCharm`来启动程序了
+
+此外，可以在`pycharm`左下角设置将`pycharm`图标放在`application desktop`上
+
+
+
 # 命令行
 
 ## `zsh`
@@ -180,6 +192,12 @@ copydir k git zsh-autosuggestions zsh-syntax-highlighting
   * `ls -al`
 
     列出所有文件（包括隐藏）的详细信息
+    
+  * `ls -d $regex`
+
+    根据正则`$regex`匹配输出文件
+
+    例如`ls -d *.c`输出所有`.c`文件
 
   在`linux`中，所有以`.`开头的文件/文件夹均为隐藏的
 
@@ -237,6 +255,8 @@ copydir k git zsh-autosuggestions zsh-syntax-highlighting
 
   即`copy`，复制文件
 
+  下面的`dest`只能有一个，`source`可以有多个，如果是文件夹就会将所有源文件复制过来，如果是文件名就会将源文件复制过来的同时改名
+
   * `cp source dest`
 
     将`source`复制到`dest`
@@ -280,8 +300,6 @@ copydir k git zsh-autosuggestions zsh-syntax-highlighting
 * `hd`
 
   输出文件十六进制内容到`Terminal`
-
-  
 
 * `more`
 
@@ -328,7 +346,60 @@ copydir k git zsh-autosuggestions zsh-syntax-highlighting
 
   `sudo find / -name "isa"`则表示查找文件夹下所有包含`isa`这个字符串的文件/文件夹
 
-  `sudo find ./ -size 1G`则表示查找当前文件夹下大小大于`1G`的文件ubun
+  `sudo find ./ -size 1G`则表示查找当前文件夹下大小大于`1G`的文件
+  
+* `man`
+
+  帮助命令，我们一般在`Vim`里使用`Man`命令替代
+
+  `man -k $keyword`可以搜索以`$keyword`作为关键词的帮助
+
+
+
+## 重定向
+
+[ref](https://askubuntu.com/questions/420981/how-do-i-save-terminal-output-to-a-file)
+
+`>`只重定向`stdout`并且会清除文件内容，`>>`只重定向`stdout`并且会追加内容到文件末尾
+
+`&>`会将`stdout`和`stderr`都重定向，`&>`原理同`>>`
+
+更多：
+
+```txt
+          || visible in terminal ||   visible in file   || existing
+  Syntax  ||  StdOut  |  StdErr  ||  StdOut  |  StdErr  ||   file   
+==========++==========+==========++==========+==========++===========
+    >     ||    no    |   yes    ||   yes    |    no    || overwrite
+    >>    ||    no    |   yes    ||   yes    |    no    ||  append
+          ||          |          ||          |          ||
+   2>     ||   yes    |    no    ||    no    |   yes    || overwrite
+   2>>    ||   yes    |    no    ||    no    |   yes    ||  append
+          ||          |          ||          |          ||
+   &>     ||    no    |    no    ||   yes    |   yes    || overwrite
+   &>>    ||    no    |    no    ||   yes    |   yes    ||  append
+          ||          |          ||          |          ||
+ | tee    ||   yes    |   yes    ||   yes    |    no    || overwrite
+ | tee -a ||   yes    |   yes    ||   yes    |    no    ||  append
+          ||          |          ||          |          ||
+ n.e. (*) ||   yes    |   yes    ||    no    |   yes    || overwrite
+ n.e. (*) ||   yes    |   yes    ||    no    |   yes    ||  append
+          ||          |          ||          |          ||
+|& tee    ||   yes    |   yes    ||   yes    |   yes    || overwrite
+|& tee -a ||   yes    |   yes    ||   yes    |   yes    ||  append
+```
+
+
+
+## `man`
+
+`man`各个编号对应的内容：
+
+<img src="ref/截屏2022-02-24 17.02.45.png" style="zoom:50%;" />
+
+
+
+
 
 
 
@@ -352,7 +423,7 @@ copydir k git zsh-autosuggestions zsh-syntax-highlighting
 
 [使用`shell`编写`.sh`文件](https://www.shellscript.sh/index.html)（也可以参考[菜鸟教程](https://www.runoob.com/linux/linux-shell.html)），然后按照下面的方法：
 
-先保证`~/zshrc`里面有`export PATH=$PATH:"~/shells"`这句话
+先保证`~/.zshrc`里面有`export PATH=$PATH:"~/shells"`这句话
 
 然后把`.sh`文件放在`~/shells`里面
 
@@ -517,6 +588,18 @@ bind-key l select-pane -R
 * 快速重新布局`pane`：快捷键：`C+b Space`
 
   每一次都会尝试一个布局
+  
+* 重调大小
+
+  `C-b :`调出命令窗口，之后输入`resize-pane -`，跟`URDL`选择调整方向，然后输入数字表示调整大小
+
+* 顺时针调整`pane`
+
+  `C-b`后跟`C-o`将会顺时针调整窗口内容
+
+* 显示`pane`编号并且快速跳转
+
+  `C-b q`会显示所有的`pane`的编号，之后输入编号就可以直接跳转相应的`pane`
 
 
 
@@ -576,6 +659,8 @@ runtime! ftplugin/man.vim
 
 `:wq`就是退出了
 
+`:q!`强制退出，不保存（交换文件都不会存在）
+
 `i`进入插入模式，光标位置不变
 
 `a`进入插入模式，光标在当前位置之后
@@ -603,6 +688,8 @@ runtime! ftplugin/man.vim
 `v`进入`visual`模式，然后`hjkl`选择复制的区间，然后输入`d`，就可以了
 
 但是，如果是需要往`vim`外复制，则需要输入`"+d`
+
+可以`Ctrl+v`进入`visual block`模式，这种模式对于“删除多行的行首注释”很有用
 
 
 
@@ -677,6 +764,16 @@ runtime! ftplugin/man.vim
 `za`折叠/撤销折叠当前语义块
 
 这玩意有个问题，如果在被折叠的语意块之前输入`{}`这种会自动格式化的东西，折叠就会被展开
+
+
+
+## 缩进调节
+
+`$NUM`+`>>`可以调节当前行的缩进向右`$NUM`个`tab`
+
+`$NUM`+`<<`是向左
+
+如果想要多行一起调的话，可以先在`VISUAL`模式下选中多行，然后调节
 
 
 
@@ -770,19 +867,19 @@ git config --global color.ui true
 
 `make -j4`可以用4核编译
 
-
-
-
-
-
-
 一篇[知乎文章](https://zhuanlan.zhihu.com/p/47390641)
 
 
 
+# `valgrind`
+
+这玩意`CS61C`介绍了，这里就先记一下简单用法，之后再学怎么深入使用
 
 
 
+`valgrind $filepath`可以对可执行文件做分析
+
+`--leak-check=full`可以增加内存检查
 
 
 
