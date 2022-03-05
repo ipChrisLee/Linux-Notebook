@@ -36,3 +36,27 @@ I had typed `git config --global alias.adog "log --all --decorate --oneline --gr
 
 I had typed `git config --global alias.ADOG "log --graph --abbrev-commit --decorate --date=relative --all"`, so `git ADOG` can be invoked to print branch graphs, where the data of every commit contains multiline data.
 
+
+
+# With GitHub
+
+## intro
+
+Install `gh` first.
+
+I have add `SSH key` to `key-agent`, STFW for how to do this.
+
+
+
+## Upload a repo
+
+[GiHub Tutorial](https://docs.github.com/en/get-started/importing-your-projects-to-github/importing-source-code-to-github/adding-an-existing-project-to-github-using-the-command-line)
+
+An example:
+
+<img src="ref/截屏2022-03-05 16.24.13.png" style="zoom:50%;" />
+
+
+
+## Push Updates
+

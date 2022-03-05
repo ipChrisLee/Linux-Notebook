@@ -164,6 +164,21 @@ Add `@` behind command can run the command mutely.
 
 
 
+## colored text output
+
+You can output colored text by `echo` in Makefile. Info can do same but more difficultly.
+
+```makefile
+runCmd = $(env) $(pyFiles)
+run :
+	@echo "\033[0;36m$(runCmd)\033[0m"
+	@$(runCmd)
+```
+
+
+
+
+
 # Examples
 
 ```makefile
