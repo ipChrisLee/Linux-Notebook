@@ -60,3 +60,7 @@ An example:
 
 ## Push Updates
 
+`git status` to get branch locating now.
+
+`git push -u origin master` can push `master` branch to `origin`
+
