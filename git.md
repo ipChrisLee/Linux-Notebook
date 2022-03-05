@@ -64,3 +64,4 @@ An example:
 
 `git push -u origin master` can push `master` branch to `origin`
 
+Sometimes `git push` works same.

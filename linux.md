@@ -485,8 +485,6 @@ find "$DIR" -type f -name "$PATTERN" | xargs grep "$CONTENT"
 
 ## 页面介绍
 
-<img src="noteSrc/截屏2021-12-06 18.35.11.png" style="zoom:50%;" />
-
 `[2]`所在的`session`
 
 `0: 1: 2:`打开的窗口，`*`表示当前所在窗口
@@ -600,6 +598,12 @@ bind-key l select-pane -R
 * 显示`pane`编号并且快速跳转
 
   `C-b q`会显示所有的`pane`的编号，之后输入编号就可以直接跳转相应的`pane`
+
+* 两个`pane`之间交换
+
+  `C-b :`调出命令输入界面，之后`-D`、`-U`等选择和哪个交换
+
+  `C-b :`之后跟`-t 1`也可以让当前`pane`和编号为`1`的`pane`交换
 
 
 
